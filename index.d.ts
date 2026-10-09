@@ -1,4 +1,4 @@
-/**
+/*
 * @license Apache-2.0
 *
 * Copyright (c) 2026 The Stdlib Authors.
@@ -16,20 +16,27 @@
 * limitations under the License.
 */
 
-'use strict';
+// TypeScript Version: 4.1
 
-// MODULES //
+/// <reference types="https://cdn.jsdelivr.net/gh/stdlib-js/types@esm/index.d.ts"/>
 
-var isnan = require( '@stdlib/math-base-assert-is-nan' );
-var incrmpe = require( '@stdlib/stats-incr-mpe' );
-
-
-// MAIN //
+/**
+* If provided input values, the accumulator function returns an updated mean percentage error. If not provided input values, the accumulator function returns the current mean percentage error.
+*
+* ## Notes
+*
+* -   If either `f` or `a` is `NaN`, the input value pair is skipped (i.e., the pair does not contribute to the accumulated value).
+*
+* @param f - input value (forecast)
+* @param a - input value (actual)
+* @returns mean percentage error or null
+*/
+type accumulator = ( f?: number, a?: number ) => number | null;
 
 /**
 * Returns an accumulator function which incrementally computes the mean percentage error, ignoring `NaN` values.
 *
-* @returns {Function} accumulator function
+* @returns accumulator function
 *
 * @example
 * var accumulator = incrnanmpe();
@@ -49,27 +56,9 @@ var incrmpe = require( '@stdlib/stats-incr-mpe' );
 * m = accumulator();
 * // returns ~-58.33
 */
-function incrnanmpe() {
-	var mpe = incrmpe();
-	return accumulator;
-
-	/**
-	* If provided input values, the accumulator function returns an updated mean percentage error. If not provided input values, the accumulator function returns the current mean percentage error.
-	*
-	* @private
-	* @param {number} [f] - input value (forecast)
-	* @param {number} [a] - input value (actual)
-	* @returns {(number|null)} mean percentage error or null
-	*/
-	function accumulator( f, a ) {
-		if ( arguments.length === 0 || isnan( f ) || isnan( a ) ) {
-			return mpe();
-		}
-		return mpe( f, a );
-	}
-}
+declare function incrnanmpe(): accumulator;
 
 
 // EXPORTS //
 
-module.exports = incrnanmpe;
+export = incrnanmpe;
